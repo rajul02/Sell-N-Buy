@@ -28,7 +28,7 @@ p {
 after { clear: both; }
 
 #login {
- 
+  margin: 5%
   width: 320px;
 }
 
@@ -110,12 +110,12 @@ after { clear: both; }
 
 
 #register {
-  margin: 6% auto;
+  margin: 4% ;
   width: 320px;
 }
 
 #register form {
-  margin: auto;
+
   padding: 22px 22px 22px 22px;
   width: 100%;
   border-radius: 5px;
@@ -212,6 +212,7 @@ after { clear: both; }
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-size: 50px;
 }
 
 #cl-effect-16 li a:hover:not(.active) {

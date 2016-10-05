@@ -11,7 +11,7 @@
 
     $username = $_POST['username'];
 
-    $password =$_POST['password'];
+    $password =md5($_POST['password']);
 
     $email = $_POST['email'];
 
@@ -37,7 +37,7 @@
   <meta charset="utf-8">
     <title>SellNBuy</title>
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css\bootstrap.css">
 
     <script type="text/javascript">
          <!--
@@ -106,7 +106,7 @@
 
 
 </head>
-<body>
+<?php  include 'header.php';?>
 <div style="padding: 6%">
    <div id="login" style="">
    <h1 style=" color: White ; font-family: sans-sherif"><center>Sell N Buy</center></h1>
