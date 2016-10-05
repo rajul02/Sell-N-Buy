@@ -9,7 +9,7 @@ $funObj = new dbFunction($conn);
     
     $username = $_POST['username'];
 
-    $password =$_POST['password'];
+    $password =md5($_POST['password']);
     if($username=='admin' && $password=='system123')
     {
       
@@ -21,8 +21,13 @@ $funObj = new dbFunction($conn);
       $user = $funObj->Login($username,$password);
     if(!$user)
       echo " Incorrect username or password";
+    else {
+      echo $_SESSION['username'];
+      header("Location: index.php");
+    }
     
     }
+
   }
 
   if(isset($_POST['register']))
@@ -31,21 +36,16 @@ $funObj = new dbFunction($conn);
   }
 
 ?>
-
-
-
-
-
 <html>
 <head>
   <meta charset="utf-8">
     <title>SellNBuy</title>
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
 
 </head>
 <body>
-
+<?php  include 'header.php';?>
    <div id="login">
    <h1 style=" color: White ; font-family: sans-sherif"><center>Sell N Buy</center></h1>
    <h2 style=" color: White; font-family: arial"><center>Login</center></h2>
