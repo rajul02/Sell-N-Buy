@@ -16,6 +16,9 @@
 
 		$data = $funobj->getSellingItemById($_SESSION['user_ID']);
 		//print_r($data);
+		if(count($data) == 0){
+			$data = [];
+		}
 
     }else {
 

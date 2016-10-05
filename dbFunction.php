@@ -110,7 +110,8 @@
 				    }
 				} 
 				else {
-				    echo "0 results";
+					$data = [];
+				    echo "No Product";
 				}
 
 				return $data;
