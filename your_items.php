@@ -24,6 +24,15 @@
 
     	header("Location: index.php");
     }
+
+    if(isset($_POST['remove_product'])) {
+    	if($funobj->removeProduct($_POST['remove_product'])) {
+    		header("Location: your_items.php");
+    		die();
+    	}else {
+    		echo "Delete Failed";
+    	}
+    }
 ?>
 
 <div class="container">
@@ -33,8 +42,10 @@
 		<div class="col-md-3 col-sm-4 col-xs-6" style="background-color: #00A7E1;padding: 5px;margin: 5px;height: 350px;width: 250px">
 
 			<div class="card">
-				<div class="rating">
-					<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+				<div class="rating" align="right" style="margin: 5px">
+				<form action="" method="post">
+					<button type="submit" name="remove_product" value=<?php echo $item['item_ID'];?>><i class="glyphicon glyphicon-remove"></i></button>
+				</form>
 				</div>
 					<img class="img-responsive" style="height: 220px" src="uploads/<?php echo $item['item_image']; ?>.jpg">
 					<div class="container">
