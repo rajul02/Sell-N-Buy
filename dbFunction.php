@@ -135,6 +135,20 @@
 				return $data;
 			}
 		}
+
+		public function removeProduct($pid)
+		{
+			$query = "DELETE FROM `item` WHERE item_ID = '$pid'";
+
+			$result = mysqli_query($this->db,$query);
+			//echo mysqli_error($this->db);
+			if($result) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 		
 
 
