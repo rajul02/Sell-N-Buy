@@ -149,6 +149,128 @@
 				return false;
 			}
 		}
+
+		public function newItemPermission()
+		{
+			$query1 = "SELECT * FROM item natural join item_detail WHERE item.permission= 0";
+			
+			
+    $result1 = mysqli_query($this->db,$query1);
+
+    while ($row1 = mysqli_fetch_array($result1)) { 
+            $item_id = $row1['item_ID'];
+            $category = $row1['category'];
+            $price = $row1['price'];
+            $item_desc = $row1['item_desc'];
+            $item_title = $row1['item_title'];
+
+          
+   // $funObj = new dbFunction($conn);
+  
+  
+    $image_name= $row1["item_image"];      $image_path="images";
+        
+
+            //echo "<div style='border: ridge;padding: 20;height=500px'>";
+             echo "<div class='container'>";
+             echo '<div class="col-md-3">';
+    
+            echo '<div class="card">';
+    
+          echo "<img src=".$image_path."/".$image_name." height=200 width=100%><br>";
+          
+          echo '<div class="container" >';
+                 
+                  echo ' <p>';
+                  echo $item_title; 
+                  echo '</p>';
+                  echo ' <p style="float: bottom">';
+                  echo "Price:-".$price;
+                  echo '</p>';
+          echo "</div>";
+         
+                 
+         
+        ?>
+        
+        <form id="delete" method="post" action="">
+        <input type="hidden" name="item_id" value="<?php print $item_id; ?>"/> 
+        <input type="submit" name="item_permission" value="Give Permission" style="background-color:#4a245e; height: 30px;width: 150px;border: solid; border-color:#4a245e;color: white; margin-left:50px"/>    
+
+        </form>
+        <?php
+        echo "</div>";
+        echo "</div>"; 
+       
+
+    }  
+    echo "</div>";
+		}
+
+	public function profitPerUser()
+	{
+		echo "rajul";
+	}
+
+
+	public function stopBid()
+	{
+
+			$query1 = "SELECT * FROM item natural join item_detail WHERE item.stop_bid= 0";
+			
+			
+    $result1 = mysqli_query($this->db,$query1);
+
+    while ($row1 = mysqli_fetch_array($result1)) { 
+            $item_id = $row1['item_ID'];
+            $category = $row1['category'];
+            $price = $row1['price'];
+            $item_desc = $row1['item_desc'];
+            $item_title = $row1['item_title'];
+
+          
+   // $funObj = new dbFunction($conn);
+  
+  
+    $image_name= $row1["item_image"];      $image_path="images";
+        
+
+            //echo "<div style='border: ridge;padding: 20;height=500px'>";
+             echo "<div class='container'>";
+             echo '<div class="col-md-3">';
+    
+            echo '<div class="card">';
+    
+          echo "<img src=".$image_path."/".$image_name." height=200 width=100%><br>";
+          
+          echo '<div class="container" >';
+                 
+                  echo ' <p>';
+                  echo $item_title; 
+                  echo '</p>';
+                  echo ' <p style="float: bottom">';
+                  echo "Price:-".$price;
+                  echo '</p>';
+          echo "</div>";
+         
+                 
+         
+        ?>
+        
+        <form id="delete" method="post" action="">
+        <input type="hidden" name="item_id" value="<?php print $item_id; ?>"/> 
+        <input type="submit" name="stop_item_bid" value="Stop Bid" style="background-color:#4a245e; height: 30px;width: 150px;border: solid; border-color:#4a245e;color: white; margin-left:50px"/>    
+
+        </form>
+        <?php
+        echo "</div>";
+        echo "</div>"; 
+       
+
+    }  
+    echo "</div>";
+		
+	}
 		
 
 

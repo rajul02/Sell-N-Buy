@@ -37,7 +37,7 @@
   <meta charset="utf-8">
     <title>SellNBuy</title>
     
-    <link rel="stylesheet" href="css\bootstrap.css">
+    <link rel="stylesheet" href="style.css">
 
     <script type="text/javascript">
          <!--
@@ -107,25 +107,25 @@
 
 </head>
 <?php  include 'header.php';?>
-<div style="padding: 6%">
+<div style="">
    <div id="login" style="">
    <h1 style=" color: White ; font-family: sans-sherif"><center>Sell N Buy</center></h1>
    <h2 style=" color: White; font-family: arial"><center>Register</center></h2>
       <form name='register' method="post"  onsubmit="return(validate())" action="">
 
-        <span class="fontawesome"></span>
+       
           <input type="text" id="user" name= "username"  placeholder="Username" required="required">
        
-        <span class="fontawesome"></span>
+       
           <input type="password" id="pass" name="password"  placeholder="Password" required="required">
 
-        <span class="fontawesome"></span>
+       
           <input type="password" id="pass" name="rpassword"  placeholder=" Renter Password" required="required">
 
-        <span class="fontawesome"></span>
+       
           <input type="text" id="contact" name="contact"  placeholder="1234567890" required="required">
 
-        <span class="fontawesome"></span>
+       
           <input type="text" id="email" name="email"  placeholder="abc@xyz.com" required="required">
         
         
