@@ -7,7 +7,6 @@
         session_start(); 
     } 
 
-include 'dbFunction.php';
 include_once 'dbConnect.php';
 
   if(isset($_POST['submit'])) {

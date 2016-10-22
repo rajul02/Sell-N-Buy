@@ -2,7 +2,7 @@
 
 <?php 
 
-include 'dbFunction.php';
+
 include_once 'dbConnect.php';
 
 $funobj = new dbFunction($conn);

@@ -61,6 +61,7 @@ $funObj = new dbFunction($conn);
           <input type="password" id="pass" name="password"  placeholder="Password" required="required">
         
         <input type="submit" value="Login" name="login">
+         <a class="forgot" href="forgot.php">Forgot Password?</a>
         <br><br>
 
       </form>

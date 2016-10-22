@@ -3,18 +3,23 @@
   include 'dbFunction.php';
   include_once 'dbConnect.php';
   $funObj = new dbFunction($conn);
+  
     if(isset($_POST['new_items']))
     {
-      $data = $funObj->getSellingItemById('*');
+      $data = $funObj->getProductForPermission();
     }
     else {
       $data = [];
     }
 
-    if(isset($_POST['remove_product'])) {
-      if($funobj->removeProduct($_POST['remove_product'])) {
-        header("Location: your_items.php");
-        die();
+    if(isset($_POST['permit_product'])) {
+
+      if($funObj->permissionProduct($_POST['permit_product'])) {
+         
+         header("Location: admin.php?r=new_items");
+          //$data = $funObj->getProductForPermission();
+          // print_r($data);
+        
       }else {
         echo "Delete Failed";
       }
@@ -24,9 +29,42 @@
 
     if(isset($_POST['profit']))
     {
-      $funObj->profitPerUser();
+        $profitItemList = $funObj->profitPerItem();
+    }
+    else
+    {
+      $profitItemList = [];
     }
 
+
+
+     if(isset($_POST['profit1']))
+    {
+        $profitUserList = $funObj->profitPerUser();
+    }
+    else
+    {
+      $profitUserList = [];
+    }
+
+
+    if(isset($_POST['total_sell']))
+    {
+      $totalsell = $funObj->totalSell();
+    }
+    else
+    {
+      $totalsell= [];
+    }
+
+    if(isset($_POST['items_left']))
+    {
+      $itemleft = $funObj->itemsLeft();
+    }
+    else
+    {
+      $itemleft = [];
+    }
 
 
      if(isset($_POST['stopbid']))
@@ -47,6 +85,12 @@
        }
        $funObj->stopBid();
     }
+    if(isset($_GET['r']))
+  {
+  	
+  	$data = $funObj->getProductForPermission();
+
+  }
 
 
 
@@ -58,9 +102,10 @@
 <!DOCTYPE>
 <html>
 <head>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="style.css">
 
 
 <style>
@@ -93,64 +138,19 @@ ul.sidebar-nav li input:hover:not(.active) {
 <body style="background: #2c3338;
   color: #606468;">
 	<?php include 'header.php';?>
-	<div id="wrapper">
 
-        <!-- Sidebar -->
-        <div class="col-md-3">
-            <ul class="sidebar-nav">
-               <br>
-               
-
-                <li>
-                <form name="new_items" method="post" action="">
-                	 <input type="submit" name="new_items" value="New Item" style="width:80%; margin-right:20px;border:none; background-color:#f1f1f1">
-                </form> 
-                </li>
-
-                <li>
-                <form name="profit" method="post" action="">
-                	 <input type="submit" name="profit" value="Profit/User" style="width:80%;border:none; background-color:#f1f1f1">
-                </form> 
-                </li>
-
-                <li>
-                <form name="stop_bid" method="post" action="">
-                	 <input type="submit" name="stopbid" value="Stop Bid" style="width:80%; margin-right:20px;border:none; background-color:#f1f1f1">
-                </form> 
-                </li>
-
-
-                <li>
-                    <a href="#">Events</a>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
-        
-        <!-- /#sidebar-wrapper -->
-
-
-
-<div class="container">
+        <div class="container" id='rajul'>
   
   <?php foreach($data as $item): ?>
     
-    <div class="col-md-3 col-sm-4 col-xs-6" style="background-color: #00A7E1;padding: 5px;margin: 5px;height: 360px;width: 250px">
+    <div class="col-md-3 col-sm-4 col-xs-6" style="padding: 5px;margin: 5px;height: 360px;width: 250px">
 
       <div class="card">
         <div class="rating" align="right" style="margin: 5px">
         <!--<form action="" method="post">
            <button type="submit" name="remove_product" value=<?php echo $item['item_ID'];?>><i class="glyphicon glyphicon-remove"></i></button> 
         </form> -->
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-<?php echo $item['item_ID']; ?>"><i class="glyphicon glyphicon-remove"></i></button>
+          <button type="button" class="btn btn-primary" style="background-color:green" data-toggle="modal" data-target=".bs-<?php echo $item['item_ID']; ?>"><i class="glyphicon glyphicon-right"></i></button>
         </div>
           <img class="img-responsive" style="height: 220px" src="uploads/<?php echo $item['item_image']; ?>.jpg">
           <div class="container">
@@ -168,13 +168,13 @@ ul.sidebar-nav li input:hover:not(.active) {
         <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
             <div class="modal-body">
-              <p>Are You Sure you want to remove Product: <?php echo $item['item_title']; ?></p>
+              <p>Are You Sure you want to give permission to the Product: <?php echo $item['item_title']; ?></p>
               </div>
               <form action="" method="post">
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               
-              <button type="submit" name="remove_product" value=<?php echo $item['item_ID'];?> class="btn btn-primary">Delete</button>
+              <button type="submit" name="permit_product" value=<?php echo $item['item_ID'];?> class="btn btn-primary">Permit</button>
              
             </div>
              </form>
@@ -182,7 +182,122 @@ ul.sidebar-nav li input:hover:not(.active) {
         </div>
       </div>
   <?php endforeach; ?>
+  <?php $count = 1?>
+    <table class="table" style="width:100%; border:solid ">
+   <?php foreach($profitItemList as $item): ?>
+       
+  <?php if ($count== 1): ?>
+   <thead>
+      <tr>
+        <th>Item ID</th>
+        <th>Base Price</th>
+        <th>Sold Value</th>
+        <th>Profit</th>
+      </tr>
+    </thead>
+    <?php $count=100; endif;?> 
+    
+    <tbody>
+      <tr>
+        <td><?php echo $item['item_ID']; ?></td>
+        <td><?php echo $item['price']; ?></td>
+        <td><?php echo $item['sold_value']; ?></td>
+        <td><?php echo $item['sold_value']-$item['price']; ?></td>
+      </tr>
+    </tbody>
+
+
+    <?php endforeach; ?>
+     </table>
+
+<?php $count = 1?>
+        <table class="table" style="width:100%; border:solid ">
+   <?php foreach($profitUserList as $item): ?>
+       
+  <?php if ($count== 1): ?>
+   <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Base Price</th>
+        <th>Total</th>
+        <th>Profit</th>
+      </tr>
+    </thead>
+   <?php $count=100; endif;?> 
+    <tbody>
+      <tr>
+        <td><?php echo $item['user_ID']; ?></td>
+        <td><?php echo $item['base']; ?></td>
+        <td><?php echo $item['total']; ?></td>
+        <td><?php echo $item['total']-$item['base']; ?></td>
+      </tr>
+    </tbody>
+
+
+    <?php endforeach; ?>
+     </table>
+
+     <?php $count = 1?>
+        <table class="table" style="width:100%; border:solid ">
+   <?php foreach($totalsell as $item): ?>
+       
+  <?php if ($count== 1): ?>
+   <thead>
+      <tr>
+        <th>Sr. No.</th>
+        <th>Item ID</th>
+        <th>Bid Value</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+   <?php  endif;?> 
+    <tbody>
+      <tr>
+        <td><?php echo $count; ?></td>
+        <td><?php echo $item['item_ID']; ?></td>
+        <td><?php echo $item['sold_value']; ?></td>
+        <td><?php echo $item['sold_date']; ?></td>
+      </tr>
+    </tbody>
+    <?php $count++;?>
+
+    <?php endforeach; ?>
+     </table>
+
+     <?php $count = 1?>
+        <table class="table" style="width:100%; border:solid ">
+   <?php foreach($itemleft as $item): ?>
+       
+  <?php if ($count== 1): ?>
+   <thead>
+      <tr>
+        <th>Sr. No.</th>
+        <th>Item ID</th>
+        <th>Start Date</th>
+        
+      </tr>
+    </thead>
+   <?php  endif;?> 
+    <tbody>
+      <tr>
+        <td><?php echo $count; ?></td>
+        <td><?php echo $item['item_ID']; ?></td>
+        <td><?php echo $item['date']; ?></td>
+   
+      </tr>
+    </tbody>
+    <?php $count++;?>
+
+    <?php endforeach; ?>
+     </table>
+
+
+
 </div>
+
+
+
+
 
 
  <script src="js/jquery.js"></script>
@@ -197,5 +312,8 @@ ul.sidebar-nav li input:hover:not(.active) {
         $("#wrapper").toggleClass("toggled");
     });
     </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
